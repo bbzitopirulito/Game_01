@@ -18,6 +18,12 @@ public class Enemy extends Entity{
 	
 	private BufferedImage[] sprites;
 	
+	//10
+	private int life = 1;
+	
+	private boolean isDamaged = false;
+	private int damageFrames = 10, damageCurrent = 0;
+	
 	public Enemy(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, null);
 		sprites = new BufferedImage[2];
@@ -46,10 +52,9 @@ public class Enemy extends Entity{
 			//estamos colidindo
 			if(Game.rand.nextInt(100) < 10) {
 				Game.player.life -= Game.rand.nextInt(3);
-				if(Game.player.life == 0) {
-					//game over
-				}
-				System.out.println("Vida: " + Game.player.life);
+				Game.player.isDamaged = true;
+				
+				//System.out.println("Vida: " + Game.player.life);
 			}					
 		}
 		
@@ -62,6 +67,39 @@ public class Enemy extends Entity{
 			}
 		}
 		
+		collidingBullet();
+		
+		if(life <= 0) {
+			destroySelf();
+		}
+		
+		if(isDamaged) {
+			this.damageCurrent++;
+			if(this.damageCurrent == this.damageFrames) {
+				this.damageCurrent = 0;
+				isDamaged = false;
+			}
+		}
+		
+	}
+	
+	public void destroySelf() {
+		Game.enemies.remove(this);
+		Game.entities.remove(this);
+	}
+	
+	public void collidingBullet() {
+		for(int i = 0; i < Game.bullets.size(); i++) {
+			Entity e = Game.bullets.get(i);
+			
+			if(Entity.isColidding(this, e)) {
+				isDamaged = true;
+				life--;
+				Game.bullets.remove(i);
+				return;
+			}
+			
+		}
 	}
 	
 	public boolean isColiddingWithPlayer() {
@@ -88,8 +126,10 @@ public class Enemy extends Entity{
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(sprites[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		
+		if(!isDamaged)
+			g.drawImage(sprites[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		else 
+			g.drawImage(Entity.ENEMY_FEEDBACK, this.getX() - Camera.x, this.getY() - Camera.y, null);
 
 		//g.setColor(Color.BLUE);
 		//g.fillRect(this.getX() + maskx - Camera.x, this.getY() + masky - Camera.y, maskw, maskh);

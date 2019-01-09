@@ -3,10 +3,12 @@ package com.gcstudios.world;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import com.gcstudios.entities.*;
+import com.gcstudios.graficos.Spritesheet;
 import com.gcstudios.main.Game;
 
 public class World {
@@ -50,7 +52,8 @@ public class World {
 						Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.WEAPON_EN));
 					}else if(pixelAtual == 0xFF01C408) {
 						//life pack
-						Game.entities.add(new Lifepack(xx*16, yy*16, 16, 16, Entity.LIFEPACK_EN));
+						Lifepack pack = new Lifepack(xx*16, yy*16, 16, 16, Entity.LIFEPACK_EN);
+						Game.entities.add(pack);
 					}else if(pixelAtual == 0xFFB5C105) {
 						//bullet
 						Game.entities.add(new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN));
@@ -79,6 +82,16 @@ public class World {
 				(tiles[x2 + (y2*World.WIDTH)] instanceof WallTile) ||
 				(tiles[x3 + (y3*World.WIDTH)] instanceof WallTile) ||
 				(tiles[x4 + (y4*World.WIDTH)] instanceof WallTile));
+	}
+	
+	public static void restartGame(String level) {
+		Game.entities = new ArrayList<Entity>();
+		Game.enemies = new ArrayList<Enemy>();
+		Game.spritesheet = new Spritesheet("/spritesheet.png");
+		Game.player = new Player(0,0,16,16,Game.spritesheet.getSprite(32, 0, 16, 16));
+		Game.entities.add(Game.player);
+		Game.world = new World("/" + level);	
+		return;
 	}
 	
 	public void render(Graphics g) {

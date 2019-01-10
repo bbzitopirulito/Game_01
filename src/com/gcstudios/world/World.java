@@ -57,6 +57,10 @@ public class World {
 					}else if(pixelAtual == 0xFFB5C105) {
 						//bullet
 						Game.entities.add(new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN));
+					}else if(pixelAtual == 0xFFFFDE00) {						
+						Boss b = new Boss(xx*16, yy*16, 32, 32, Entity.BOSS_EN);
+						Game.entities.add(b);
+						Game.enemies.add(b);						
 					}
 				}
 			}
@@ -65,7 +69,7 @@ public class World {
 		}
 	}
 	
-	public static boolean isFree(int xnext, int ynext) {
+	public static boolean isFree(int xnext, int ynext, int TILE_SIZE) {
 		int x1 = xnext / TILE_SIZE;
 		int y1 = ynext / TILE_SIZE;
 		

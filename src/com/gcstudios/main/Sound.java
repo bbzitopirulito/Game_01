@@ -7,7 +7,7 @@ public class Sound {
 	
 	private AudioClip clip;
 	
-	public static final Sound musicBackground = new Sound("/test.mp3");
+	public static final Sound musicBackground = new Sound("/sweetdreams.wav");
 	
 	private Sound(String name) {
 		try {
@@ -35,6 +35,10 @@ public class Sound {
 				}
 			}.start();			
 		}catch(Throwable e) {}
+	}
+	
+	public void stop() {
+		clip.stop();
 	}
 	
 }

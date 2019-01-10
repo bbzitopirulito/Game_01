@@ -54,21 +54,21 @@ public class Player extends Entity{
 	
 	public void tick(){
 		moved = false;
-		if(right && World.isFree((int)(x+speed),this.getY())) {
+		if(right && World.isFree((int)(x+speed),this.getY(), World.TILE_SIZE)) {
 			moved = true;
 			dir = right_dir;
 			x+=speed;
 		}
-		else if(left && World.isFree((int)(x-speed),this.getY())) {
+		else if(left && World.isFree((int)(x-speed),this.getY(), World.TILE_SIZE)) {
 			moved = true;
 			dir = left_dir;
 			x-=speed;
 		}
-		if(up && World.isFree(this.getX(),(int)(y-speed))) { 
+		if(up && World.isFree(this.getX(),(int)(y-speed), World.TILE_SIZE)) { 
 			moved = true;
 			y-=speed;
 		}
-		else if(down && World.isFree(this.getX(),(int)(y+speed))) {
+		else if(down && World.isFree(this.getX(),(int)(y+speed), World.TILE_SIZE)) {
 			moved = true;
 			y+=speed;
 		}
@@ -146,7 +146,7 @@ public class Player extends Entity{
 		if(life <= 0) {
 			//game over
 			life = 0;
-			Game.gameState = "GAME_OVER";
+			//Game.gameState = "GAME_OVER";
 		}
 		
 		updateCamera();

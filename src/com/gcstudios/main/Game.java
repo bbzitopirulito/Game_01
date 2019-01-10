@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener {
 	private static final long serialVersionUID = 1L;
 	public static JFrame frame;
 	private Thread thread;
-	private int CUR_LEVEL = 1, MAX_LEVEL = 2;
+	public static int CUR_LEVEL = 1, MAX_LEVEL = 2;
 	private BufferedImage image;
 	private boolean isRunning = true;
 	//240
@@ -56,14 +56,15 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener {
 	
 	public static String gameState = "MENU";
 	
+	private boolean lvl2song = false;
+	
 	private boolean showMessageGameOver = true;
 	private int framesGameOver = 0;
 	private boolean restartGame = false;
 	
 	public Menu menu;
 	
-	public Game() {
-		Sound.musicBackground.loop();
+	public Game() {		
 		rand = new Random();
 		addKeyListener(this);
 		addMouseListener(this);
@@ -150,6 +151,15 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener {
 		}else if(gameState == "MENU") {
 			//menu do jogo
 			menu.tick();
+		}
+		
+		if(CUR_LEVEL == 2 && !lvl2song) {
+			lvl2song = true;
+			Sound.musicBackground.play();
+			//lvl2song = false;
+		}else if(CUR_LEVEL != 2){
+			lvl2song = false;
+			Sound.musicBackground.stop();
 		}
 	}
 	

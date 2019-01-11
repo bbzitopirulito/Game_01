@@ -5,13 +5,13 @@ import java.applet.AudioClip;
 
 public class Sound {
 	
-	private AudioClip clip;
+	private AudioClip clip;	
 	
-	public static final Sound musicBackground = new Sound("/sweetdreams.wav");
+	public static final Sound musicBackground = new Sound("/sweetdreams.wav");	
 	
 	private Sound(String name) {
 		try {
-			clip = Applet.newAudioClip(Sound.class.getResource(name));
+			clip = Applet.newAudioClip(Sound.class.getResource(name));						
 		}catch(Throwable e) {
 			
 		}
@@ -21,7 +21,7 @@ public class Sound {
 		try {
 			new Thread() {
 				public void run() {
-					clip.play();
+					clip.play();									
 				}
 			}.start();			
 		}catch(Throwable e) {}
